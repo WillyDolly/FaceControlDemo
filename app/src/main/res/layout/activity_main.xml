@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:keepScreenOn="true"
+    tools:context="com.popland.pop.facecontroldemo.MainActivity">
+
+    <com.popland.pop.facecontroldemo.CameraSourcePreview
+        android:id="@+id/csPreview"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.popland.pop.facecontroldemo.GraphicOverlay
+            android:id="@+id/gOverlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.popland.pop.facecontroldemo.CameraSourcePreview>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:src="@mipmap/ic_launcher"
+        android:layout_width="50dp"
+        android:layout_height="50dp" />
+</RelativeLayout>
