@@ -22,6 +22,7 @@ public class FaceGraphic extends GraphicOverlay.Graphic {
 Paint boxPaint, textPaint;
 volatile Face mFace;//volatile to tell compiler it's an unusual variable in multi-threading program
 Bitmap character;
+int xC, yC;
 
     public FaceGraphic(GraphicOverlay go) {
         super(go);
@@ -35,6 +36,9 @@ Bitmap character;
         textPaint.setTextSize(100);
 
         character = BitmapFactory.decodeResource(Resources.getSystem(),R.mipmap.ic_launcher);
+
+        xC = 720;
+        yC = 1200;
     }
 
     public void update(Face face){
@@ -46,19 +50,19 @@ Bitmap character;
     public void draw(Canvas canvas) {
         if(mFace==null)
             return;
-        float x = translateX(mFace.getPosition().x);
-        float y = translateY(mFace.getPosition().y);
-        canvas.drawCircle(x,y,20,boxPaint);
-        float xPreview = mFace.getPosition().x;
-        float yPreview = mFace.getPosition().y;
-        Paint p = new Paint();
-        p.setColor(Color.RED);
-        p.setStyle(Paint.Style.STROKE);
-        canvas.drawCircle(xPreview,yPreview,20,p);
-
-        float boxW = scaleX(mFace.getWidth());
-        float boxH = scaleY(mFace.getHeight());
-        canvas.drawRect(x, y ,x+boxW, y+boxH,boxPaint);
+//        float x = translateX(mFace.getPosition().x);
+//        float y = translateY(mFace.getPosition().y);
+//        canvas.drawCircle(x,y,20,boxPaint);
+//        float xPreview = mFace.getPosition().x;
+//        float yPreview = mFace.getPosition().y;
+//        Paint p = new Paint();
+//        p.setColor(Color.RED);
+//        p.setStyle(Paint.Style.STROKE);
+//        canvas.drawCircle(xPreview,yPreview,20,p);
+//
+//        float boxW = scaleX(mFace.getWidth());
+//        float boxH = scaleY(mFace.getHeight());
+//        canvas.drawRect(x, y ,x+boxW, y+boxH,boxPaint);
 
 //        RectF rectF = new RectF(mFace.getPosition().x,mFace.getPosition().y,mFace.getPosition().x +mFace.getWidth(),mFace.getPosition().y +mFace.getHeight());
 //        Matrix matrix = new Matrix();
@@ -70,17 +74,23 @@ Bitmap character;
 
         //EulerZ indicate head's orientation with face opposite to camera
         float EulerZ = mFace.getEulerZ();
-        canvas.drawText(""+EulerZ,canvas.getWidth()/2,100,textPaint);
-        if(EulerZ>10) {//fine-tune sensitivity
-            canvas.drawText("RIGHT", canvas.getWidth() - 100, 100, textPaint);
-            canvas.drawRect(canvas.getWidth()-100,canvas.getHeight()-100,canvas.getWidth(),canvas.getHeight(),boxPaint);
-        }
-        else if(EulerZ<-10) {
-            canvas.drawText("LEFT", 100, 100, textPaint);
-            canvas.drawRect(0,canvas.getHeight()-100,100,canvas.getHeight(),boxPaint);
-        }else{
-            canvas.drawRect(canvas.getWidth()/2 -50,canvas.getHeight()-100,canvas.getWidth()/2 +50,canvas.getHeight(),boxPaint);
-        }
+        float EulerY = mFace.getEulerY();
+//        canvas.drawText(""+EulerZ,canvas.getWidth()/2,100,textPaint);
+//        if(EulerZ>10) {//fine-tune sensitivity
+//            canvas.drawText("RIGHT", canvas.getWidth() - 100, 100, textPaint);
+//            canvas.drawRect(canvas.getWidth()-100,canvas.getHeight()-100,canvas.getWidth(),canvas.getHeight(),boxPaint);
+//        }
+//        else if(EulerZ<-10) {
+//            canvas.drawText("LEFT", 100, 100, textPaint);
+//            canvas.drawRect(0,canvas.getHeight()-100,100,canvas.getHeight(),boxPaint);
+//        }else{
+//            canvas.drawRect(canvas.getWidth()/2 -50,canvas.getHeight()-100,canvas.getWidth()/2 +50,canvas.getHeight(),boxPaint);
+//        }
 
+        if((EulerY<0 && EulerZ<0) || (EulerY>0 && EulerZ>0)){//head up
+            yC += 1;
+            canvas.drawBitmap(character,xC,yC,null);
+        }
+        //if((EulerY>0 && EulerZ<0) || (EulerY<0 && EulerZ>0))// head down
     }
 }
